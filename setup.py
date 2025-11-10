@@ -19,7 +19,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "mysort = my_sort.cli:cli",
+            "my_sort = my_sort.cli:cli",
         ],
     },
     classifiers=[
