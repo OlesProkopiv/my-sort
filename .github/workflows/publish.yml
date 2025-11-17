@@ -1,8 +1,7 @@
 name: Публікація Python-пакету на PyPI (Після Release)
 
 on:
-  # Цей робочий процес запускається лише, коли створюється новий "Release"
-  # Це найкращий спосіб для управління версіями та публікацією.
+
   release:
     types: [published]
 
@@ -44,3 +43,16 @@ jobs:
           # Явно вказуємо, що використовуємо токен API
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
+
+  hello-demonstration:
+    # Запускається після успішного завершення build-and-publish.
+    # Якщо ви хочете, щоб вони запускалися ПАРАЛЕЛЬНО, видаліть 'needs: build-and-publish'
+    needs: build-and-publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Вітання
+        run: echo "Hello World"
+
+      - name: Пояснення
+        run: echo "Це окреме завдання, яке відображається окремим блоком на сторінці Summary."
