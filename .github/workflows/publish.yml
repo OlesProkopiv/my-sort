@@ -1,0 +1,46 @@
+name: Публікація Python-пакету на PyPI (Після Release)
+
+on:
+  # Цей робочий процес запускається лише, коли створюється новий "Release"
+  # Це найкращий спосіб для управління версіями та публікацією.
+  release:
+    types: [published]
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    # Рекомендується для сучасних GitHub Actions
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      # 1. Клонуємо репозиторій
+      - name: Перевірка репозиторію
+        uses: actions/checkout@v4
+
+      # 2. Встановлюємо Python
+      - name: Налаштування Python
+        uses: actions/setup-python@v5
+        with:
+          # Використовуємо 3.11, як у вашому прикладі
+          python-version: '3.11'
+
+      # 3. Встановлюємо інструменти для збірки
+      - name: Встановлення інструментів збірки
+        run: |
+          python -m pip install --upgrade pip
+          pip install build
+
+      # 4. Збираємо пакет (створюємо файли .whl та .tar.gz у dist/)
+      - name: Збірка Python-пакету
+        run: python -m build
+
+      # 5. Публікуємо на ОФІЦІЙНИЙ PyPI
+      - name: Публікація на PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          # Явно вказуємо, що використовуємо токен API
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
