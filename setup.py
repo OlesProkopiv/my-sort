@@ -6,7 +6,7 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text(encoding="utf-8")
 
 setup(
-    name="my-sort",
+    name="my-sort-prokopiv",
     version="0.1.0",
     description="A small implementation of Unix sort (supports -r and -n) implemented with Click",
     long_description=README,
